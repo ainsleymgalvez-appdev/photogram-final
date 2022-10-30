@@ -1,0 +1,166 @@
+<div>
+  <div>
+    <h1>
+      Photo details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/photos">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_photo/<%= @the_photo.id %>">
+          Delete photo
+        </a>
+      </div>
+    </div>
+
+    <dl>
+
+    <dt>
+        Image
+      </dt>
+      <dd>
+        <img src="<%= @the_photo.image %>">
+      </dd>
+      <dt>
+        Caption
+      </dt>
+      <dd>
+        <%= @the_photo.caption %>
+      </dd>
+
+      <dt>
+        Owner
+      </dt>
+      <dd>
+        <%= @the_photo.owner.username %>
+      </dd>
+
+      <dt>
+        Posted
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_photo.created_at) %> ago
+      </dd>
+
+      <dt>
+        Likes count
+      </dt>
+      <dd>
+        <%= @the_photo.likes_count %>
+      </dd>
+
+      <dt>
+        Comments count
+      </dt>
+      <dd>
+        <%= @the_photo.comments_count %>
+      </dd>
+
+      <% if session.fetch(:user_id) != nil %>
+
+      <dt>
+        Fans
+      </dt>
+      <dd>
+        
+      </dd>
+
+      <dt>
+        Add a fan
+      </dt>
+      <dd>
+        
+      </dd>
+
+      <% end %>
+
+      <% if session.fetch(:user_id) == @the_photo.owner_id %>
+
+      <dt>
+        Edit photo
+      </dt>
+      <dd>
+      <form action="/modify_photo/<%= @the_photo.id %>" method="post" enctype="multipart/form-data">
+      <label for="browser_image">Image URL</label>
+      <input id="browser_image" type="file" name="query_image" placeholder="Enter a URL for the image..." value="http://res-3.cloudinary.com/dt1gn6erd/image/upload/v1667153002/zc3mpa2i2nzejgil35qt.png">
+    
+      <label for="browser_caption">Caption</label>
+      <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption for the photo...">hi</textarea>
+    
+      <button>Update photo</button>
+    </form>
+      </dd>
+
+      <dt>
+       Delete photo
+      </dt>
+      <dd>
+      <a href = "/delete_photo/<%= @the_photo.id %>">Delete this photo</a>
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit photo
+    </h2>
+
+    <form action="/modify_photo/<%= @the_photo.id %>"  method="post" >
+      <div>
+        <label for="caption_box">
+          Caption
+        </label>
+
+        <textarea id="caption_box" name="query_caption"><%= @the_photo.caption %></textarea>
+      </div>
+
+      <div>
+        <label for="comments_count_box">
+          Comments count
+        </label>
+
+        <input type="text" id="comments_count_box" name="query_comments_count" value="<%= @the_photo.comments_count %>">
+      </div>
+
+      <div>
+        <label for="image_box">
+          Image
+        </label>
+
+        <input type="text" id="image_box" name="query_image" value="<%= @the_photo.image %>">
+      </div>
+
+      <div>
+        <label for="likes_count_box">
+          Likes count
+        </label>
+
+        <input type="text" id="likes_count_box" name="query_likes_count" value="<%= @the_photo.likes_count %>">
+      </div>
+
+      <div>
+        <label for="owner_id_box">
+          Owner
+        </label>
+
+        <input type="text" id="owner_id_box" name="query_owner_id" value="<%= @the_photo.owner_id %>">
+      </div>
+
+      <button>
+        Update photo
+      </button>
+    </form>
+  </div>
+</div>
+<% end %>
+<hr>
