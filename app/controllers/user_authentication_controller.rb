@@ -2,7 +2,6 @@ class UserAuthenticationController < ApplicationController
   # Uncomment line 3 in this file and line 5 in ApplicationController if you want to force users to sign in before any other actions.
   # skip_before_action(:force_user_sign_in, { :only => [:sign_up_form, :create, :sign_in_form, :create_cookie] })
 
-  
   def sign_in_form
     render({ :template => "user_authentication/sign_in.html.erb" })
   end
@@ -39,13 +38,11 @@ class UserAuthenticationController < ApplicationController
 
   def create
     @user = User.new
-    # @user.comments_count = params.fetch("query_comments_count")
     @user.email = params.fetch("query_email")
-    # @user.likes_count = params.fetch("query_likes_count")
-    @user.private = params.fetch("query_private", false)
-    @user.username = params.fetch("query_username")
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
+    @user.private = params.fetch("query_private", false)
+    @user.username = params.fetch("query_username")
 
     save_status = @user.save
 
@@ -64,13 +61,11 @@ class UserAuthenticationController < ApplicationController
 
   def update
     @user = @current_user
-    @user.comments_count = params.fetch("query_comments_count")
     @user.email = params.fetch("query_email")
-    @user.likes_count = params.fetch("query_likes_count")
-    @user.private = params.fetch("query_private", false)
-    @user.username = params.fetch("query_username")
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
+    @user.private = params.fetch("query_private", false)
+    @user.username = params.fetch("query_username")
     
     if @user.valid?
       @user.save
@@ -86,6 +81,38 @@ class UserAuthenticationController < ApplicationController
     reset_session
     
     redirect_to("/", { :notice => "User account cancelled" })
+  end
+
+  def show
+    user = params.fetch("path_id")
+
+    @the_user = User.where({ :username => user }).at(0)
+
+    @follower_count = FollowRequest.where(:recipient_id => @the_user.id )
+
+    if @the_user.private == false
+
+    render({:template => "user_authentication/show.html.erb"})
+
+    else
+      redirect_to("/", { :alert => "You're not authorized for that." })
+    end 
+
+  end
+
+  def feed
+
+    render({:template => "user_authentication/feed.html.erb"})
+  end
+
+  def liked_photos
+
+    render({:template => "user_authentication/liked_photos.html.erb"})
+  end
+
+  def discover
+
+    render({:template => "user_authentication/discover.html.erb"})
   end
  
 end

@@ -1,4 +1,46 @@
 Rails.application.routes.draw do
+  
+  # Routes for User Show page
+
+  get("/users/:path_id/discover",{:controller => "user_authentication", :action => "discover"})
+
+  get("/users/:path_id/feed", {:controller => "user_authentication", :action => "feed"})
+  
+  get("/users/:path_id/liked_photos", {:controller => "user_authentication", :action => "liked_photos"})  
+  
+  # Routes for the User account:
+
+  # INDEX
+  get("/users", {:controller => "application", :action => "home" })
+
+  # SHOW USER
+  get("/users/:path_id", {:controller => "user_authentication", :action => "show" })
+
+  # SIGN UP FORM
+  get("/user_sign_up", { :controller => "user_authentication", :action => "sign_up_form" })        
+  # CREATE RECORD
+  post("/insert_user", { :controller => "user_authentication", :action => "create"  })
+      
+  # EDIT PROFILE FORM        
+  get("/edit_user_profile", { :controller => "user_authentication", :action => "edit_profile_form" })       
+  # UPDATE RECORD
+  post("/modify_user", { :controller => "user_authentication", :action => "update" })
+  
+  # DELETE RECORD
+  get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
+
+  # ------------------------------
+
+  # SIGN IN FORM
+  get("/user_sign_in", { :controller => "user_authentication", :action => "sign_in_form" })
+  # AUTHENTICATE AND STORE COOKIE
+  post("/user_verify_credentials", { :controller => "user_authentication", :action => "create_cookie" })
+  
+  # SIGN OUT        
+  get("/user_sign_out", { :controller => "user_authentication", :action => "destroy_cookies" })
+             
+  #------------------------------
+
   # Routes for the Comment resource:
 
   get("/", {:controller => "application", :action => "home" })
@@ -56,35 +98,6 @@ Rails.application.routes.draw do
   # DELETE
   get("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
 
-  #------------------------------
-
-  # Routes for the User account:
-
-  # FULL USERS
-  get("/users", {:controller => "application", :action => "home"})
-  # SIGN UP FORM
-  get("/user_sign_up", { :controller => "user_authentication", :action => "sign_up_form" })        
-  # CREATE RECORD
-  post("/insert_user", { :controller => "user_authentication", :action => "create"  })
-      
-  # EDIT PROFILE FORM        
-  get("/edit_user_profile", { :controller => "user_authentication", :action => "edit_profile_form" })       
-  # UPDATE RECORD
-  post("/modify_user", { :controller => "user_authentication", :action => "update" })
-  
-  # DELETE RECORD
-  get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
-
-  # ------------------------------
-
-  # SIGN IN FORM
-  get("/user_sign_in", { :controller => "user_authentication", :action => "sign_in_form" })
-  # AUTHENTICATE AND STORE COOKIE
-  post("/user_verify_credentials", { :controller => "user_authentication", :action => "create_cookie" })
-  
-  # SIGN OUT        
-  get("/user_sign_out", { :controller => "user_authentication", :action => "destroy_cookies" })
-             
   #------------------------------
 
   # Routes for the Photo resource:

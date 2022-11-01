@@ -1,0 +1,107 @@
+<% if @the_user.private == false %>
+<h1> <%= @the_user.username %> </h1>
+
+<dl>
+  <dt>Private</dt>
+  <dd><%= @the_user.private %></dd>
+
+  <dt>Followers</dt>
+  <dd>
+    <%= %>
+
+      <div>
+          <form action="/insert_follow_request" method="post">
+            <input type="hidden" name="query_recipient_id" value="92">
+
+            <button>
+              Follow
+            </button>
+          </form>
+    </div>
+
+  </dd>
+
+  <dt>Following</dt>
+  <dd><%= %></dd>
+
+</dl>
+
+<nav>
+  <ul>
+    <li>
+      <a href="/users/<%= @the_user.username%>">Profile</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username%>/liked_photos">Liked photos</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username%>/feed">Feed</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username%>/discover">Discover</a>
+    </li>
+  </ul>
+</nav>
+
+<h2>Own photos (<%= @the_user.photos.count %>)</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Image
+    </th>
+
+    <th>
+      Owner
+    </th>
+
+    <th>
+      Caption
+    </th>
+
+    <th>
+      Posted
+    </th>
+
+    <th>
+      Likes
+    </th>
+
+    <th></th>
+  </tr>
+   
+   <% @the_user.photos.each do |photo| %>
+
+  <tr>
+    <td>
+      <img src="<%= photo.image %>">
+    </td>
+
+    <td>
+      <%= photo.owner.username %>
+    </td>
+
+    <td>
+      <%= photo.caption %>
+    </td>
+
+    <td>
+      over 5 years ago
+    </td>
+
+    <td>
+      <%= photo.likes_count %>
+    </td>
+    
+    <td>
+    <a href= "/photos/<%= photo.id %>">Show Details </a>
+    </td>
+    
+    </tr>
+     <% end %>
+    </table>
+    <% else %>
+
+  <% redirect_to("/", { :alert => "You're not authorized for that." }) %>
+
+    <% end %>
