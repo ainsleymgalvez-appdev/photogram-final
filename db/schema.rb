@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_31_162408) do
+ActiveRecord::Schema.define(version: 2022_11_02_153820) do
 
   create_table "comments", force: :cascade do |t|
     t.integer "author_id"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 2022_10_31_162408) do
     t.string "username"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "sent_request_count", default: 0
+    t.integer "recipient_request_count", default: 0
   end
 
 end

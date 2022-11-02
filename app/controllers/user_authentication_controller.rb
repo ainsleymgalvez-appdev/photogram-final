@@ -1,16 +1,16 @@
 class UserAuthenticationController < ApplicationController
   # Uncomment line 3 in this file and line 5 in ApplicationController if you want to force users to sign in before any other actions.
   # skip_before_action(:force_user_sign_in, { :only => [:sign_up_form, :create, :sign_in_form, :create_cookie] })
-  skip_before_action(:force_user_sign_in, { :only => [:home, :sign_up_form, :create, :sign_in_form, :create_cookie] })
+  skip_before_action(:force_user_sign_in, { :only => [:sign_up_form, :create, :sign_in_form, :create_cookie] })
 
-  def home
+  # def home
 
-    matching_users = User.all
+  #   matching_users = User.all
 
-     @list_of_users = matching_users.order({ :username => :asc})
+  #    @list_of_users = matching_users.order({ :username => :asc})
 
-      render({:template => "layouts/homepage.html.erb"})
-  end
+  #     render({:template => "users/homepage.html.erb"})
+  # end
 
   def sign_in_form
     render({ :template => "user_authentication/sign_in.html.erb" })
@@ -93,36 +93,36 @@ class UserAuthenticationController < ApplicationController
     redirect_to("/", { :notice => "User account cancelled" })
   end
 
-  def show
-    user = params.fetch("path_id")
+  # def show
+  #   user = params.fetch("path_id")
 
-    @the_user = User.where({ :username => user }).at(0)
+  #   @the_user = User.where({ :username => user }).at(0)
 
-    @follower_count = FollowRequest.where(:recipient_id => @the_user.id )
+  #   @follower_count = FollowRequest.where(:recipient_id => @the_user.id )
 
-    if @the_user.private == false
+  #   if @the_user.private == false
 
-    render({:template => "user_authentication/show.html.erb"})
+  #   render({:template => "users/show.html.erb"})
 
-    else
-      redirect_to("/", { :alert => "You're not authorized for that." })
-    end 
+  #   else
+  #     redirect_to("/", { :alert => "You're not authorized for that." })
+  #   end 
 
-  end
+  # end
 
-  def feed
+  # def feed
 
-    render({:template => "user_authentication/feed.html.erb"})
-  end
+  #   render({:template => "users/feed.html.erb"})
+  # end
 
-  def liked_photos
+  # def liked_photos
 
-    render({:template => "user_authentication/liked_photos.html.erb"})
-  end
+  #   render({:template => "users/liked_photos.html.erb"})
+  # end
 
-  def discover
+  # def discover
 
-    render({:template => "user_authentication/discover.html.erb"})
-  end
+  #   render({:template => "users/discover.html.erb"})
+  # end
  
 end

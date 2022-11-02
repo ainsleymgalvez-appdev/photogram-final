@@ -2,19 +2,20 @@ Rails.application.routes.draw do
   
   # Routes for User Show page
 
-  get("/users/:path_id/discover",{:controller => "user_authentication", :action => "discover"})
+  get("/", {:controller => "user", :action => "home" })
 
-  get("/users/:path_id/feed", {:controller => "user_authentication", :action => "feed"})
+  get("/users/:path_id/discover",{:controller => "user", :action => "discover"})
+
+  get("/users/:path_id/feed", {:controller => "user", :action => "feed"})
   
-  get("/users/:path_id/liked_photos", {:controller => "user_authentication", :action => "liked_photos"})  
+  get("/users/:path_id/liked_photos", {:controller => "user", :action => "liked_photos"})
+
+  get("/users/:path_id", {:controller => "user", :action => "show"})
+
+  get("/users", {:controller => "user", :action => "home"})
   
   # Routes for the User account:
 
-  # INDEX
-  get("/users", {:controller => "user_authentication", :action => "home" })
-
-  # SHOW USER
-  get("/users/:path_id", {:controller => "user_authentication", :action => "show" })
 
   # SIGN UP FORM
   get("/user_sign_up", { :controller => "user_authentication", :action => "sign_up_form" })        
@@ -42,8 +43,6 @@ Rails.application.routes.draw do
   #------------------------------
 
   # Routes for the Comment resource:
-
-  get("/", {:controller => "user_authentication", :action => "home" })
 
   # CREATE
   post("/insert_comment", { :controller => "comments", :action => "create" })

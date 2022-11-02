@@ -43,7 +43,7 @@
           <% end %>
         </td>
 
-      <% if session.fetch(:user_id) != nil %>
+      <% if session.fetch(:user_id) != nil &&  %>
 
         <td>
           <form action="/insert_follow_request" method="post">
@@ -55,12 +55,6 @@
         <% end %>
 
         <td>
-        <% if a_user.sent_request == "accepted" %>
-
-          hahahah
-
-
-        <% end %>
         </td>
 
         <td>

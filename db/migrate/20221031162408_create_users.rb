@@ -7,9 +7,6 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.integer :likes_count
       t.boolean :private
       t.string :username
-      t.integer :photos_count
-      t.integer :sent_request_count
-      t.integer :recipient_request_count
 
       t.timestamps
     end

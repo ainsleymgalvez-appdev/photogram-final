@@ -7,7 +7,7 @@
 
   <dt>Followers</dt>
   <dd>
-    <%= %>
+    <% if @the_user.recipient_request.status == "p" %>
 
       <div>
           <form action="/insert_follow_request" method="post">
@@ -86,7 +86,7 @@
     </td>
 
     <td>
-      over 5 years ago
+     <%= time_ago_in_words(photo.created_at) %> ago
     </td>
 
     <td>
