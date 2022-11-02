@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   # Routes for the User account:
 
   # INDEX
-  get("/users", {:controller => "application", :action => "home" })
+  get("/users", {:controller => "user_authentication", :action => "home" })
 
   # SHOW USER
   get("/users/:path_id", {:controller => "user_authentication", :action => "show" })
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   # Routes for the Comment resource:
 
-  get("/", {:controller => "application", :action => "home" })
+  get("/", {:controller => "user_authentication", :action => "home" })
 
   # CREATE
   post("/insert_comment", { :controller => "comments", :action => "create" })

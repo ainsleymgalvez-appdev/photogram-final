@@ -10,12 +10,13 @@
           Go back
         </a>
       </div>
-
+<% if session.fetch(:user_id) == @the_photo.owner_id%>
       <div>
         <a href="/delete_photo/<%= @the_photo.id %>">
           Delete photo
         </a>
       </div>
+      <% end %>
     </div>
 
     <dl>

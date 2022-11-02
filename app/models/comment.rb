@@ -11,8 +11,8 @@
 #
 class Comment < ApplicationRecord
 
-  belongs_to(:photo, { :required => true, :class_name => "Photo", :foreign_key => "photo_id" })
+  belongs_to(:photo, { :required => true, :class_name => "Photo", :foreign_key => "photo_id", :counter_cache => true })
 
-  belongs_to(:author, { :required => true, :class_name => "User", :foreign_key => "author_id" })
+  belongs_to(:author, { :required => true, :class_name => "User", :foreign_key => "author_id", :counter_cache => true })
 
 end
