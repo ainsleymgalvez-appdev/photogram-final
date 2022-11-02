@@ -43,7 +43,7 @@
           <% end %>
         </td>
 
-      <% if session.fetch(:user_id) != nil &&  %>
+      <% if session.fetch(:user_id) != nil %>
 
         <td>
           <form action="/insert_follow_request" method="post">
@@ -55,6 +55,16 @@
         <% end %>
 
         <td>
+
+        <%# <% if @current_user.sent_request.sender_id == session.fetch(:user_id) %>
+
+        <%# <a href="/delete_follow_request/<%= a_user.id %>
+        <%#">
+              Unfollow
+            </a> %>
+
+        <%# end %>
+
         </td>
 
         <td>
