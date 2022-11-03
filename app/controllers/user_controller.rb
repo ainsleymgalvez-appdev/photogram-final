@@ -8,6 +8,9 @@ class UserController < ApplicationController
 
      @list_of_users = matching_users.order({ :username => :asc})
 
+     match_following = FollowRequest.all
+
+
       render({:template => "users/homepage.html.erb"})
   end
 
@@ -18,13 +21,24 @@ class UserController < ApplicationController
 
     @follower_count = FollowRequest.where(:recipient_id => @the_user.id )
 
+    match_following = FollowRequest.where({:sender_id => session.fetch(:user_id)}).where({:recipient_id => @the_user.id}).at(0)
+
     if @the_user.private == false
 
-    render({:template => "users/show.html.erb"})
-
+        render({:template => "users/show.html.erb"})
+    
     else
-      redirect_to("/", { :alert => "You're not authorized for that." })
-    end 
+
+      if match_following != nil && match_following.status == "accepted"
+  
+        render({:template => "users/show.html.erb"})
+    
+        else
+          redirect_to("/", { :alert => "You're not authorized for that." })
+
+        end
+
+    end
 
   end
 

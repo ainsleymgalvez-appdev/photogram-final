@@ -20,8 +20,12 @@
           Private?
         </th>
 
+         <% if session.fetch(:user_id) != nil %>
+
         <th>
         </th>
+
+        <% end %>
 
         <th>
           
@@ -43,29 +47,41 @@
           <% end %>
         </td>
 
-      <% if session.fetch(:user_id) != nil %>
+        <% if session.fetch(:user_id) != nil %>
 
-        <td>
-          <form action="/insert_follow_request" method="post">
+        <td> 
+
+        <% match_following = FollowRequest.where({:sender_id => session.fetch(:user_id)}).where({:recipient_id => a_user.id}).at(0) %>
+
+        <% if match_following != nil && match_following.status == "accepted" %>
+
+        <a href="/delete_follow_request/ <%= match_following.id %>">
+              Unfollow
+            </a>
+
+        <% elsif match_following != nil && match_following.status == "pending" %>
+
+         Request sent.
+
+            <a href="/delete_follow_request/<% match_following.id %>">
+              Cancel
+            </a>
+
+        <% elsif match_following != nil && match_following.status == "rejected" %>
+
+        <% else %>
+
+        <form action="/insert_follow_request" method="post">
           <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">   
           <button>Follow</button> 
           </form>  
-        </td>
+
 
         <% end %>
 
-        <td>
-
-        <%# <% if @current_user.sent_request.sender_id == session.fetch(:user_id) %>
-
-        <%# <a href="/delete_follow_request/<%= a_user.id %>
-        <%#">
-              Unfollow
-            </a> %>
-
-        <%# end %>
-
         </td>
+
+        <% end %>
 
         <td>
 

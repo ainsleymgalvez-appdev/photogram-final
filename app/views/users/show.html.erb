@@ -1,4 +1,3 @@
-<% if @the_user.private == false %>
 <h1> <%= @the_user.username %> </h1>
 
 <dl>
@@ -11,6 +10,18 @@
       <%= @the_user.recipient_request.count %>
 
       <div>
+
+     <% match_following = FollowRequest.where({:sender_id => session.fetch(:user_id)}).where({:recipient_id => @the_user.id}).at(0) %>
+
+      <% if match_following != nil && match_following.status == "accepted" %>
+
+      <a href="/delete_follow_request/<% match_following.id %>">
+            Unfollow
+          </a>
+
+      <% else %>
+
+      <div>
           <form action="/insert_follow_request" method="post">
             <input type="hidden" name="query_recipient_id" value="<%= @the_user.id%>">
 
@@ -18,6 +29,8 @@
               Follow
             </button>
           </form>
+          <% end %>
+    </div>
     </div>
 
   </dd>
@@ -107,7 +120,7 @@
     </td>
 
     <td>
-      <%= photo.likes_count %>
+      <%= photo.likes.count %>
     </td>
     
     <td>
@@ -115,10 +128,7 @@
     </td>
     
     </tr>
-     <% end %>
-    </table>
-    <% else %>
-
-  <% redirect_to("/", { :alert => "You're not authorized for that." }) %>
 
     <% end %>
+
+      </table>

@@ -3,7 +3,8 @@ class PhotosController < ApplicationController
   skip_before_action(:force_user_sign_in, { :only => [:index]})
 
   def index
-    matching_photos = Photo.all
+    matching_user = User.where({:private => false })
+    matching_photos = Photo.where({:owner_id => matching_user})
 
     @list_of_photos = matching_photos.order({ :created_at => :desc })
 

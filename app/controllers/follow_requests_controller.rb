@@ -2,10 +2,12 @@ class FollowRequestsController < ApplicationController
   def index
     matching_follow_requests = FollowRequest.all
 
-    @list_of_follow_requests = matching_follow_requests.order({ :created_at => :desc })
+    @list_of_follow_requests = matching_follow_requests.where({ :sender_id => @current_user.id })
 
     render({ :template => "follow_requests/index.html.erb" })
   end
+
+  
 
   def show
     the_id = params.fetch("path_id")
@@ -21,14 +23,22 @@ class FollowRequestsController < ApplicationController
     the_follow_request = FollowRequest.new
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.sender_id = session.fetch(:user_id)
-    # 
+    
+    the_recipient = User.where({:id => the_follow_request.recipient_id }).at(0)
 
     if the_follow_request.valid?
-      the_follow_request.status = "accepted"
+
+      if the_recipient.private
+        the_follow_request.status = "pending"
+      else
+        the_follow_request.status = "accepted"
+      end 
 
       the_follow_request.save
+
       redirect_to("/users", { :notice => "Follow request created successfully." })
     else
+      
       redirect_to("/users", { :alert => the_follow_request.errors.full_messages.to_sentence })
     end
   end
