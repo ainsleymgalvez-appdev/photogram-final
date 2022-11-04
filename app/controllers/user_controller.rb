@@ -72,6 +72,16 @@ class UserController < ApplicationController
 
   def discover
 
+    user = params.fetch("path_id")
+
+    @get_user = User.where({:username => user}).at(0)
+
+    get_following = FollowRequest.where({:sender_id => @get_user.id}).where({:status => "accepted" }).map_relation_to_array(:recipient_id)
+
+    get_likes = Like.where({ :fan_id => get_following }).map_relation_to_array(:photo_id)
+
+    @get_photos = Photo.where({:id => get_likes}).order({ :created_at => :desc })
+
     render({:template => "users/discover.html.erb"})
   end
 
