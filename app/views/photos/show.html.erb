@@ -75,7 +75,23 @@
         Add a fan
       </dt>
       <dd>
-        
+
+      <% match_fan = Like.where({:fan_id => session.fetch(:user_id)}).where({:photo_id => @the_photo.id}).at(0) %>
+
+      <% if match_fan == nil %>
+
+        <form action="/insert_like" method="post">
+      <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+      <button>Like</button>
+
+      <% else %>
+
+      <a href="/delete_like/<%= match_fan.id %>">
+        Unlike
+      </a>
+
+      <% end %>
+    </form>
       </dd>
 
       <% end %>

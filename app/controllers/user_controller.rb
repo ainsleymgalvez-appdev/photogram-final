@@ -17,13 +17,17 @@ class UserController < ApplicationController
   def show
     user = params.fetch("path_id")
 
-    @the_user = User.where({ :username => user }).at(0)
+    @the_user = User.where({ :username => user}).at(0)
 
     @follower_count = FollowRequest.where(:recipient_id => @the_user.id )
 
     match_following = FollowRequest.where({:sender_id => session.fetch(:user_id)}).where({:recipient_id => @the_user.id}).at(0)
 
-    if @the_user.private == false
+    if @the_user.id == session.fetch(:user_id)
+
+      render({:template => "users/show.html.erb"})
+      
+    elsif @the_user.private == false
 
         render({:template => "users/show.html.erb"})
     
@@ -32,8 +36,8 @@ class UserController < ApplicationController
       if match_following != nil && match_following.status == "accepted"
   
         render({:template => "users/show.html.erb"})
-    
-        else
+
+      else
           redirect_to("/", { :alert => "You're not authorized for that." })
 
         end
@@ -44,10 +48,24 @@ class UserController < ApplicationController
 
   def feed
 
+    user = params.fetch("path_id")
+
+    @get_user = User.where({:username => user}).at(0)
+
+    @get_following = FollowRequest.where({:sender_id => @get_user.id}).where({:status => "accepted" }).map_relation_to_array(:recipient_id)
+
     render({:template => "users/feed.html.erb"})
   end
 
   def liked_photos
+
+    user = params.fetch("path_id")
+
+    @get_user = User.where({:username => user}).at(0)
+
+    @get_likes = Like.where({:fan_id => @get_user.id}).map_relation_to_array(:photo_id)
+
+    @get_photos = Photo.where({:id => @get_likes}).order({ :created_at => :desc })
 
     render({:template => "users/liked_photos.html.erb"})
   end
